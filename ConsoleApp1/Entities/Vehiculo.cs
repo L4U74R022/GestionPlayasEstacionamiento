@@ -6,6 +6,10 @@ namespace TP2.Entities
 {
     class Vehiculo
     {
+        public Vehiculo()
+        {
+
+        }
         public Vehiculo(String Marca, String Modelo, String Patente)
         {
             this.Marca = Marca;

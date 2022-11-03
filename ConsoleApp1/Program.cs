@@ -12,26 +12,29 @@ namespace TP2
         static void Main(string[] args)
         {
             playas = new List<Playa>();
+            vehiculos = new List<Vehiculo>();
             MainMenu();
         }
         public static void MainMenu()
         {
-            Console.Clear();
-            String[] ops = { 
+            while (true) {
+                Console.Clear();
+                String[] ops = {
                 "1 - Administrar playas de estacionamiento",
                 "2 - Registrar estacionamiento/salida",
                 "3 - Informes",
                 "4 - Listado Recaudaciones/Lugares Libres",
-                "5 - Salir" 
+                "5 - Salir"
             };
-            int op = utils.CreateMenu("una opcion", ops);
-            switch (op)
-            {
-                case 0: nPlaya.Menu(); break;
-                case 1: |<nUbicacion.Menu(); break;
-                case 2: nInformes.Menu(); break;
-                case 3: nListado.Menu(); break;
-                case 4: Environment.Exit(0); break;
+                int op = utils.CreateMenu("una opcion", ops);
+                switch (op)
+                {
+                    case 0: nPlaya.Menu(); break;
+                    case 1: nUbicacion.Menu(); break;
+                    case 2: nInformes.Menu(); break;
+                    case 3: nListado.Menu(); break;
+                    case 4: Environment.Exit(0); break;
+                }
             }
         }
        /* static void DatosDemo()
