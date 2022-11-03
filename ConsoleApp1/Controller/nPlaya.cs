@@ -30,7 +30,7 @@ namespace TP2.Controller
                     case 4:
                         Eliminar(); break;
                     case 5:
-                        Program.MainMenu();
+                        return;
                         break;
                     default:
                         Console.Clear(); break;
@@ -147,7 +147,7 @@ namespace TP2.Controller
             Console.WriteLine("Estacionamiento registrado con exito");
             Program.MainMenu();
         }
-        public static void RegistrarSalida()
+        public static void RegistrarSalida()//CAMBIAR SELECCION DE UBICACION CON NUMEROS POR MENU LISTADO DE LOS VEHICULOS EN LA PLAYA
         {
             int id = Seleccionar();
 

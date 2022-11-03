@@ -13,7 +13,7 @@ namespace TP2.Controller
             {
                 Console.WriteLine("No existe playa para registrar el estacionamiento, por favor cree una primero. \n Presione [ENTER] para continuar");
                 Console.ReadLine();
-                Program.MainMenu();
+                return;
             }
             Console.Clear();
             string[] opciones = { "1 - Registrar Estacionamiento", "2 - Ver estado playa", "3 - Registrar salida", "4 - Menu Principal" };
@@ -33,8 +33,8 @@ namespace TP2.Controller
             //Validar previamente que el lugar no esté ocupado
             Console.Clear();
             int o = utils.CreateMenu("Opcion", new String [] {" 1- Vehiculo existente ", "2 - Nuevo Vehiculo" });
-            Vehiculo v;
-            switch (0)
+            Vehiculo v = new Vehiculo(); 
+            switch (o)
             {
                 case 0:
                      v = Program.vehiculos[nVehiculo.Seleccionar()];//Reemplazar por consulta a la BD

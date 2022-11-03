@@ -7,21 +7,7 @@ namespace TP2.Controller
     class nVehiculo
     {
 
-        public static void Menu()
-        {
-            Console.Clear();
-            string[] opciones = { "1 - Registrar Estacionamiento", "2 - Ver estado playa", "3 - Registrar salida", "4 - Menu Principal" };
-            int o = utils.CreateMenu("Ubicacion", opciones);
-
-            switch (o)
-            {
-                case 0: break;
-                case 1: break;
-                case 2: break;
-                case 3: Program.MainMenu(); break;
-                default: Menu(); break;
-            }
-        }
+      
         public static Vehiculo Crear()
         {
             Console.Clear();
