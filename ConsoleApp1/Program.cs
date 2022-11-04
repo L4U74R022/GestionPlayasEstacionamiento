@@ -6,6 +6,8 @@ namespace TP2
 {
     class Program
     {
+        
+        
         static public List<Playa> playas;
         static public List<Vehiculo> vehiculos;
 
