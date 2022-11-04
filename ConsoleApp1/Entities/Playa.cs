@@ -23,10 +23,10 @@ namespace TP2.Entities
             playa = new Ubicacion[fil, col];
         }
 
-        public Playa(string nombre, int cantAutosMax, int filas, int columnas, float precio_h)
+        public Playa(string nombre, int filas, int columnas, float precio_h)
         {
             this.nombre = nombre;
-            this.cantAutosMax = cantAutosMax;
+            this.cantAutosMax = filas * columnas;
             this.filas = filas;
             this.columnas = columnas;
             this.precio_h = precio_h;

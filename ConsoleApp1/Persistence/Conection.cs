@@ -6,11 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 
-namespace TP3.Controladores
+namespace TP2.Persistence
 {
     public class Conexion
     {
-        public static string ConnectionString = @"Data Source=.\playasDB.db;";
+      
+        public static string ConnectionString = @"Data Source=..\..\..\Persistence\playasDB.db";
         public static SQLiteConnection connection;
         public static SQLiteConnection getConection()
         {

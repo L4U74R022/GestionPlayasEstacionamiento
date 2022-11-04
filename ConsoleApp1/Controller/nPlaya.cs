@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TP2.Entities;
+using TP2.Persistence;
 
 namespace TP2.Controller
 {
@@ -50,13 +51,14 @@ namespace TP2.Controller
             Console.Write("\nPrecio por hora: ");
             float precio_h = utils.ingresarFloat();
 
-            Playa p = new Playa(nombre, filas * columnas, filas, columnas, precio_h);
-            Program.playas.Add(p);
+            Playa p = new Playa(nombre, filas, columnas, precio_h);
+            pPlaya.Insert(p);
         }
         static void Listar()
         {
+            List<Playa> playas= pPlaya.Select();
             int i = 0;
-            foreach (Playa p in Program.playas)
+            foreach (Playa p in playas)
             {
                 Console.WriteLine("-------------------------------");
                 i++;
