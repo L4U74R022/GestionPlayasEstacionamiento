@@ -6,6 +6,7 @@ namespace TP2.Entities
 {
     class Playa
     {
+        public int idPlaya { set; get }
         public string nombre { set; get; }
         public int cantAutosMax { set; get; }
         public int filas { set; get; }
@@ -23,8 +24,9 @@ namespace TP2.Entities
             playa = new Ubicacion[fil, col];
         }
 
-        public Playa(string nombre, int filas, int columnas, float precio_h)
+        public Playa(int idPlaya , string nombre, int filas, int columnas, float precio_h)
         {
+            this.idPlaya = idPlaya;
             this.nombre = nombre;
             this.cantAutosMax = filas * columnas;
             this.filas = filas;
