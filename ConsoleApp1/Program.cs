@@ -32,7 +32,7 @@ namespace TP2
                 switch (op)
                 {
                     case 0: nPlaya.Menu(); break;
-                    case 1: nUbicacion.Menu(); break;
+                    case 1: nEstacionamiento.Menu(); break;
                     case 2: nInformes.Menu(); break;
                     case 3: nListado.Menu(); break;
                     case 4: Environment.Exit(0); break;

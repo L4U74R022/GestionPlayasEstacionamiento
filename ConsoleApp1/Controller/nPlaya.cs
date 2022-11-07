@@ -31,8 +31,7 @@ namespace TP2.Controller
                     case 4:
                         Eliminar(); break;
                     case 5:
-                        return;
-                        break;
+                        return; 
                     default:
                         Console.Clear(); break;
                 }
@@ -56,7 +55,7 @@ namespace TP2.Controller
         }
         static void Listar()
         {
-            List<Playa> playas= pPlaya.Select();
+            List<Playa> playas = pPlaya.Select();
             int i = 0;
             foreach (Playa p in playas)
             {
@@ -70,53 +69,56 @@ namespace TP2.Controller
             }
             Console.WriteLine("-------------------------------");
         }
-        static void Mostrar(int id)
+        static void Mostrar(Playa playa)
         {
-            Playa p = Program.playas[id];
+            Playa p = playa;
             Console.WriteLine($"Playa: {p.nombre} - [{p.filas},{p.columnas}] - ${p.precio_h}");
         }
-        public static int Seleccionar()
+        public static Playa Seleccionar()
         {
+            List<Playa> playas = new List<Playa>();
+            playas = pPlaya.Select();
+
             /** 
              * Se crea un menú a partir de la lista de playas que haya registradas, 
              * para devolver el indice de una playa dentro de la lista
              */
             Console.Clear();
             List<String> ops = new List<String>();
-            foreach (Playa p in Program.playas)
+            foreach (Playa p in playas)
             {
                 String a = $"Playa: {p.nombre} - Cantidad Maxima: {p.cantAutosMax} - Precio por hora: ${p.precio_h} - Lugares Libres: {p.lugaresLibres} - Disposicion: {p.filas}x{p.columnas}";
                 ops.Add(a);
             }
             int n = utils.CreateMenu("una playa", ops.ToArray());
-            return n;
+            return playas[n];
         }
         static void Modificar()
         {
             Console.WriteLine("Modificar una playa");
-            int playaId = Seleccionar();
+            Playa p = Seleccionar();
 
             Console.Clear();
             Console.WriteLine("Modificando a la playa:");
-            Mostrar(playaId);
-            Playa p = Program.playas[playaId];
+            Mostrar(p);
+            
 
             Console.Write($"Nombre ({p.nombre}): ");
             p.nombre = utils.ingresarString();
             Console.Write($"Precio (${p.precio_h}): ");
             p.precio_h = utils.ingresarFloat();
 
-            Program.playas[playaId] = p;
+            //Update p;
             Console.ReadLine();
         }
         static void Eliminar()
         {
             Console.WriteLine("Eliminar una playa");
-            int playaId = Seleccionar();
+            Playa playa = Seleccionar();
 
             Console.WriteLine("Se ha eliminado la playa:");
-            Mostrar(playaId);
-            Program.playas.RemoveAt(playaId);
+            Mostrar(playa);
+            //Delete playa
 
         }
         public static double CalcularCobros(List<double> cobros)
@@ -130,54 +132,55 @@ namespace TP2.Controller
         }
         public static void AddUbicacionInPlace()
         {
-            int id = Seleccionar();
+           Playa p = Seleccionar();
             int fil, col;
             while (true)
             {
-                Console.WriteLine($"Ingrese fila para registrar ingreso de vehiculo (entre 1 y {Program.playas[id].playa.GetLength(0)}): ");
-                fil = utils.ingresarIndice(Program.playas[id].playa.GetLength(0));
+                Console.WriteLine($"Ingrese fila para registrar ingreso de vehiculo (entre 1 y {p.playa.GetLength(0)}): ");
+                fil = utils.ingresarIndice(p.playa.GetLength(0));
 
-                Console.WriteLine($"Ingrese columna para registrar ingreso de vehiculo (entre 1 y {Program.playas[id].playa.GetLength(1)}): ");
-                col = utils.ingresarIndice(Program.playas[id].playa.GetLength(1));
+                Console.WriteLine($"Ingrese columna para registrar ingreso de vehiculo (entre 1 y {p.playa.GetLength(1)}): ");
+                col = utils.ingresarIndice(p.playa.GetLength(1));
 
-                /** Si el lugar ya estaba vacío, salimos de bucle para ocupar el estacionamiento */
-                if (Program.playas[id].playa[fil, col] == null) break;//CAMBIAR ESTA COMPROBACION POR UNA EN LA BASE DE DATOS 
+                /** Si el lugar ya estaba vacío, salimos de bucle para ocupar el estacionamiento **/
+                if (p.playa[fil, col] == null) break;//
                 else Console.WriteLine("ERROR! El lugar esta ocupado. Elija otro estacionamiento");
             }
 
-            nUbicacion.Crear(id, fil, col);
+            nEstacionamiento.Crear(p.idPlaya, fil, col);
             Console.WriteLine("Estacionamiento registrado con exito");
             Program.MainMenu();
         }
         public static void RegistrarSalida()//CAMBIAR SELECCION DE UBICACION CON NUMEROS POR MENU LISTADO DE LOS VEHICULOS EN LA PLAYA
         {
-            int id = Seleccionar();
+            Playa p = Seleccionar();
 
             int fil, col;
             while (true)
             {
-                Console.WriteLine($"Ingrese fila para registrar ingreso de vehiculo (entre 1 y {Program.playas[id].playa.GetLength(0)}): ");
-                fil = utils.ingresarIndice(Program.playas[id].playa.GetLength(0));
+                Console.WriteLine($"Ingrese fila para registrar ingreso de vehiculo (entre 1 y {p.playa.GetLength(0)}): ");
+                fil = utils.ingresarIndice(p.playa.GetLength(0));
 
-                Console.WriteLine($"Ingrese columna para registrar ingreso de vehiculo (entre 1 y {Program.playas[id].playa.GetLength(1)}): ");
-                col = utils.ingresarIndice(Program.playas[id].playa.GetLength(1));
+                Console.WriteLine($"Ingrese columna para registrar ingreso de vehiculo (entre 1 y {p.playa.GetLength(1)}): ");
+                col = utils.ingresarIndice(p.playa.GetLength(1));
 
-                /** Si el lugar tiene un auto estacionado, salimos de bucle para ocupar el estacionamiento */
-                if (Program.playas[id].playa[fil, col] != null) break;
+                /** Si el lugar tiene un auto estacionado, salimos de bucle para ocupar el estacionamiento **/
+                if (p.playa[fil, col] != null) break;
                 else Console.WriteLine("ERROR! El lugar esta libre, no hay auto para sacar. Elija otro estacionamiento");
             }
 
-            //Cobro
-            float precio = Program.playas[id].precio_h;
-            DateTime horaA = Program.playas[id].playa[fil, col].HoraIngreso;
+            //Cobro -> cambiar por sql
+            float precio = p.precio_h;
+            DateTime horaA = p.playa[fil, col].HoraIngreso;
             DateTime horaB = DateTime.Now;
             TimeSpan diferencia = horaB - horaA;
             double diff = Math.Round(diferencia.TotalHours, 2);
             double cobro = precio * diff;
-            Program.playas[id].cobros.Add(cobro);
+
+
+            pCobro.Insert(cobro, p.idPlaya);
             Console.WriteLine($"La salida se ha registrado con exito. Horas totales: {diff} - Precio: {cobro}");
-            Program.playas[id].playa[fil, col] = null;
-            Program.playas[id].lugaresLibres++;
+            pEstacionamiento.Delete(fil, col);
         }
     }
 }
