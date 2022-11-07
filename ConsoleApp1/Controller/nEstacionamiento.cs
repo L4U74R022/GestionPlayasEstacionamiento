@@ -2,26 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 using TP2.Entities;
+using TP2.Persistence;
 
 namespace TP2.Controller
 {
-    class nUbicacion
+    class nEstacionamiento
     {
         public static void Menu()
         {
-            if(Program.playas.Count==0)
-            {
-                Console.WriteLine("No existe playa para registrar el estacionamiento, por favor cree una primero. \n Presione [ENTER] para continuar");
-                Console.ReadLine();
-                return;
-            }
+            
             Console.Clear();
             string[] opciones = { "1 - Registrar Estacionamiento", "2 - Ver estado playa", "3 - Registrar salida", "4 - Menu Principal" };
             int o = utils.CreateMenu("Ubicacion", opciones);
 
             switch (o)
             {
-                case 0: nPlaya.AddUbicacionInPlace(); Menu(); break;
+                case 0: nPlaya.AddUbicacionInPlace();  Menu(); break;
                 case 1: SubMenu(); break;
                 case 2: nPlaya.RegistrarSalida(); Menu(); break;
                 case 3: Program.MainMenu(); break;
@@ -32,27 +28,23 @@ namespace TP2.Controller
         {
             //Validar previamente que el lugar no esté ocupado
             Console.Clear();
-            int o = utils.CreateMenu("Opcion", new String [] {" 1- Vehiculo existente ", "2 - Nuevo Vehiculo" });
-            Vehiculo v = new Vehiculo(); 
-            switch (o)
-            {
-                case 0:
-                     v = Program.vehiculos[nVehiculo.Seleccionar()];//Reemplazar por consulta a la BD
-                    break;
-                case 1:
-                     v = nVehiculo.Crear();
-                    break;
-                default:
-                    break;
-            }
+            Vehiculo v = nVehiculo.Crear();
+            
 
             DateTime HoraIngreso = DateTime.Now;
 
-            Ubicacion u = new Ubicacion(v, HoraIngreso);
+            Estacionamiento u = new Estacionamiento(v, HoraIngreso);
             //Sustituir lista por insert 
-            Program.playas[idPlaya].playa[fil, col] = u;
+            pEstacionamiento.Insert(u, fil, col, idPlaya);
+            
         }
-        
+        public static Estacionamiento Map(String Marca, String Modelo, String Patente, String Hora)
+        {
+            Vehiculo v = new Vehiculo(Marca,Modelo,Patente);
+            Estacionamiento u = new Estacionamiento(v, DateTime.Parse(Hora));
+            return u;
+           
+        }
         static void SubMenu()
         {
             Console.Clear();
@@ -67,18 +59,21 @@ namespace TP2.Controller
         public static void DatosPlaya()
         {
             Console.Clear();
-            int id = nPlaya.Seleccionar();
-            Ubicacion[,] lugares = Program.playas[id].playa;
-            Console.WriteLine("Lugares disponibles: " + Program.playas[id].lugaresLibres);
+            Playa playa = nPlaya.Seleccionar();
+            Estacionamiento[,] lugares = playa.playa;
+            Console.WriteLine("Lugares disponibles: " + playa.lugaresLibres);
 
-            Console.WriteLine($"Total recaudaciones actuales:{nPlaya.CalcularCobros(Program.playas[id].cobros)}");
+            Console.WriteLine($"Total recaudaciones actuales:{nPlaya.CalcularCobros(playa.cobros)}");
             for (int i = 0; i < lugares.GetLength(0); i++)
             {
                 for (int j = 0; j < lugares.GetLength(1); j++)
                 {
-                    Ubicacion u = lugares[i, j];
+                    Estacionamiento u = lugares[i, j];
                     if (u != null)
-                        Console.WriteLine($" Ubicacion:{i + 1}x{j + 1} - Vehiculo: {u.VehiculoEstacionado.Marca} {u.VehiculoEstacionado.Modelo} - Patente: {u.VehiculoEstacionado.Patente} - Hora de ingreso: {u.HoraIngreso}");
+                        Console.WriteLine($" Ubicacion:{i + 1}x{j + 1} - " +
+                            $"Vehiculo: {u.VehiculoEstacionado.Marca} {u.VehiculoEstacionado.Modelo} -" +
+                            $" Patente: {u.VehiculoEstacionado.Patente} - " +
+                            $"Hora de ingreso: {u.HoraIngreso}");
                 }
             }
             Console.WriteLine("Presione [Enter] para salir");
@@ -87,9 +82,8 @@ namespace TP2.Controller
         public static void EstadoDePlaya()
         {
             //Gráfico de la playa de estacionamiento
-            int id = nPlaya.Seleccionar();
-            Playa Playa = Program.playas[id];
-            Ubicacion[,] lugares = Playa.playa;
+            Playa Playa = nPlaya.Seleccionar();
+            Estacionamiento[,] lugares = Playa.playa;
 
             for (int i = 0; i < Playa.filas; i++)
             {

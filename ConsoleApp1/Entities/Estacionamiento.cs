@@ -4,15 +4,19 @@ using System.Text;
 
 namespace TP2.Entities
 {
-    class Ubicacion
+    class Estacionamiento
     {
         public Vehiculo VehiculoEstacionado { get; set; }
         public DateTime HoraIngreso { get; set; }
-        public Ubicacion(Vehiculo VehiculoEstacionado, DateTime HoraIngreso)
+        public Estacionamiento(Vehiculo VehiculoEstacionado, DateTime HoraIngreso)
         {
             this.VehiculoEstacionado = VehiculoEstacionado;
 
             this.HoraIngreso = HoraIngreso;
+        }
+
+        public Estacionamiento()
+        {
         }
     }
 }
