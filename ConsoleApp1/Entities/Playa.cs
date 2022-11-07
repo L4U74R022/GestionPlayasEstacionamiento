@@ -6,7 +6,7 @@ namespace TP2.Entities
 {
     class Playa
     {
-        public int idPlaya { set; get }
+        public int idPlaya { set; get; }
         public string nombre { set; get; }
         public int cantAutosMax { set; get; }
         public int filas { set; get; }
