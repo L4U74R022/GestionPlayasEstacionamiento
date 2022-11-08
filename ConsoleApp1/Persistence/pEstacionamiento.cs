@@ -8,22 +8,21 @@ namespace TP2.Persistence
 {
     class pEstacionamiento
     {
-        public static void  Insert(Estacionamiento e,int row, int col, int idPlaya)
+        public static void Insert(Estacionamiento e, int idPlaya)
         {
             using (SQLiteConnection connection = new SQLiteConnection(Conexion.ConnectionString))
             {
                 connection.Open();
                 string query = "INSERT INTO Estacionamiento (Fila, Columna,IdPlaya, HoraIngr, patente) values (@Fila,@Columna,@IdPlaya,@Hora,@patente)";
                 SQLiteCommand cmd = new SQLiteCommand(query, connection);
-                cmd.Parameters.Add(new SQLiteParameter("Fila", row));
-                cmd.Parameters.Add(new SQLiteParameter("Columna", col));
-                cmd.Parameters.Add(new SQLiteParameter("IdPlaya", idPlaya ));
+                cmd.Parameters.Add(new SQLiteParameter("Fila", e.fila));
+                cmd.Parameters.Add(new SQLiteParameter("Columna", e.columna));
+                cmd.Parameters.Add(new SQLiteParameter("IdPlaya", idPlaya));
                 cmd.Parameters.Add(new SQLiteParameter("Hora", e.HoraIngreso));
                 cmd.Parameters.Add(new SQLiteParameter("patente", e.VehiculoEstacionado.Patente));
-                
+
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.ExecuteNonQuery();
-
             }
             using (SQLiteConnection connection = new SQLiteConnection(Conexion.ConnectionString))
             {
@@ -41,7 +40,7 @@ namespace TP2.Persistence
 
         public static void Delete(int fil, int col)
         {
-            string patente="";
+            string patente = "";
             using (SQLiteConnection connection = new SQLiteConnection(Conexion.ConnectionString))
             {
                 connection.Open();
@@ -52,32 +51,29 @@ namespace TP2.Persistence
                     while (dr.Read())
                     {
                         patente = dr["patente"].ToString();
-
                     }
                 }
-
-                    cmd.CommandType = System.Data.CommandType.Text;
-                
-            }using (SQLiteConnection connection = new SQLiteConnection(Conexion.ConnectionString))
+                cmd.CommandType = System.Data.CommandType.Text;
+            }
+            using (SQLiteConnection connection = new SQLiteConnection(Conexion.ConnectionString))
             {
                 connection.Open();
                 string query2 = $"Delete from Estacionamiento  Where fila = {fil} and columna = {col}";
                 SQLiteCommand cmd = new SQLiteCommand(query2, connection);
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.ExecuteNonQuery();
-                
-            }using (SQLiteConnection connection = new SQLiteConnection(Conexion.ConnectionString))
+            }
+
+            using (SQLiteConnection connection = new SQLiteConnection(Conexion.ConnectionString))
             {
                 connection.Open();
                 string query2 = $"Delete from Vehiculo  Where patente = @patente";
                 SQLiteCommand cmd = new SQLiteCommand(query2, connection);
-                cmd.Parameters.Add(new SQLiteParameter("patente",patente ));
+                cmd.Parameters.Add(new SQLiteParameter("patente", patente));
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.ExecuteNonQuery();
-                
             }
         }
     }
-
 }
     

@@ -23,7 +23,7 @@ namespace TP2.Controller
             {
                 case 0: ShowCollections(); Menu(); break;
                 case 1: ShowFreePlaces(); Menu(); break;
-                case 2: return; break;
+                case 2: return; 
                 case 3: SaveData(); Menu(); break;
                 default: Menu(); break;
             }

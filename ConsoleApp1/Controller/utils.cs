@@ -82,7 +82,7 @@ namespace TP2.Controller
         }
         public static float ingresarFloat()
         {
-            float n = 0;
+            float n;
             T: try
             {
                 n = float.Parse(Console.ReadLine());

@@ -55,7 +55,7 @@ namespace TP2.Controller
         }
         static void Listar()
         {
-            List<Playa> playas = pPlaya.Select();
+            List<Playa> playas = pPlaya.GetAll();
             int i = 0;
             foreach (Playa p in playas)
             {
@@ -76,8 +76,7 @@ namespace TP2.Controller
         }
         public static Playa Seleccionar()
         {
-            List<Playa> playas = new List<Playa>();
-            playas = pPlaya.Select();
+            List<Playa> playas = pPlaya.GetAll();
 
             /** 
              * Se crea un menú a partir de la lista de playas que haya registradas, 
@@ -101,7 +100,6 @@ namespace TP2.Controller
             Console.Clear();
             Console.WriteLine("Modificando a la playa:");
             Mostrar(p);
-            
 
             Console.Write($"Nombre ({p.nombre}): ");
             p.nombre = utils.ingresarString();
@@ -109,17 +107,17 @@ namespace TP2.Controller
             p.precio_h = utils.ingresarFloat();
 
             //Update p;
-            Console.ReadLine();
+            pPlaya.Modify(p);
         }
         static void Eliminar()
         {
             Console.WriteLine("Eliminar una playa");
-            Playa playa = Seleccionar();
+            Playa p = Seleccionar();
 
             Console.WriteLine("Se ha eliminado la playa:");
-            Mostrar(playa);
+            Mostrar(p);
             //Delete playa
-
+            pPlaya.Delete(p);
         }
         public static double CalcularCobros(List<double> cobros)
         {
@@ -150,37 +148,6 @@ namespace TP2.Controller
             nEstacionamiento.Crear(p.idPlaya, fil, col);
             Console.WriteLine("Estacionamiento registrado con exito");
             Program.MainMenu();
-        }
-        public static void RegistrarSalida()//CAMBIAR SELECCION DE UBICACION CON NUMEROS POR MENU LISTADO DE LOS VEHICULOS EN LA PLAYA
-        {
-            Playa p = Seleccionar();
-
-            int fil, col;
-            while (true)
-            {
-                Console.WriteLine($"Ingrese fila para registrar ingreso de vehiculo (entre 1 y {p.playa.GetLength(0)}): ");
-                fil = utils.ingresarIndice(p.playa.GetLength(0));
-
-                Console.WriteLine($"Ingrese columna para registrar ingreso de vehiculo (entre 1 y {p.playa.GetLength(1)}): ");
-                col = utils.ingresarIndice(p.playa.GetLength(1));
-
-                /** Si el lugar tiene un auto estacionado, salimos de bucle para ocupar el estacionamiento **/
-                if (p.playa[fil, col] != null) break;
-                else Console.WriteLine("ERROR! El lugar esta libre, no hay auto para sacar. Elija otro estacionamiento");
-            }
-
-            //Cobro -> cambiar por sql
-            float precio = p.precio_h;
-            DateTime horaA = p.playa[fil, col].HoraIngreso;
-            DateTime horaB = DateTime.Now;
-            TimeSpan diferencia = horaB - horaA;
-            double diff = Math.Round(diferencia.TotalHours, 2);
-            double cobro = precio * diff;
-
-
-            pCobro.Insert(cobro, p.idPlaya);
-            Console.WriteLine($"La salida se ha registrado con exito. Horas totales: {diff} - Precio: {cobro}");
-            pEstacionamiento.Delete(fil, col);
         }
     }
 }

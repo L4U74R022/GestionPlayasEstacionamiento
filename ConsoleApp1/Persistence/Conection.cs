@@ -10,7 +10,6 @@ namespace TP2.Persistence
 {
     public class Conexion
     {
-      
         public static string ConnectionString = @"Data Source=..\..\..\Persistence\playasDB.db";
         public static SQLiteConnection connection;
         public static SQLiteConnection getConection()

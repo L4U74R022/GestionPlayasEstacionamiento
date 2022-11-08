@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TP2.Controller;
 using TP2.Entities;
+using TP2.Persistence;
 
 namespace TP2.Controller
 {
@@ -29,11 +30,11 @@ namespace TP2.Controller
         }
         public static void DataTable()
         {
-            List<Playa> playas = Program.playas;
+            List<Playa> playas = pPlaya.GetAll();
             Console.Clear();
             double total = 0;
             double total1 = 0;
-            foreach (Playa p in Program.playas)
+            foreach (Playa p in playas)
             {
                 total += nPlaya.CalcularCobros(p.cobros);
                 total1 += p.lugaresLibres;
